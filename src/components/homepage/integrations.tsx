@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CreditCard, Truck, MessageSquare, Calculator, Flame } from "lucide-react";
+import { CreditCard, Truck, MessageSquare, Calculator } from "lucide-react";
 
 interface IntegrationItem {
   id: string;
@@ -32,7 +32,7 @@ export function Integrations({ integrations }: IntegrationsProps) {
         <div className="flex justify-center items-center h-[340px] relative">
           {/* Central Hub */}
           <div className="z-10 flex h-20 w-20 items-center justify-center rounded-full border border-primary/30 bg-zinc-950 shadow-2xl glow-primary">
-            <Flame className="h-8 w-8 text-primary fill-primary" />
+            <img src="/images/logo-mark.png" alt="DIYNEZA" width={44} height={44} className="h-11 w-11 object-contain" />
           </div>
 
           {/* Left Wing Integrations */}

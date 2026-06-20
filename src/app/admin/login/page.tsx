@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Flame, AlertCircle, ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
 
@@ -60,7 +60,7 @@ export default function LoginPage() {
 
       {/* Brand Title */}
       <div className="flex items-center space-x-2.5 mb-8">
-        <Flame className="h-8 w-8 text-primary fill-primary" />
+        <img src="/images/logo-mark.png" alt="DIYNEZA logo" width={36} height={36} className="h-9 w-9 object-contain" />
         <span className="font-heading text-2xl font-black tracking-tight text-white">
           DIYNEZA<span className="text-primary">.</span>
         </span>

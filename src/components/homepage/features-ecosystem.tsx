@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Flame, ShieldCheck, Database, LayoutGrid, BarChart2, Users, Smartphone, BookOpen } from "lucide-react";
+import { ShieldCheck, Database, LayoutGrid, BarChart2, Users, Smartphone, BookOpen } from "lucide-react";
 import { homepageContent } from "@/data/homepage-content";
 
 export function FeaturesEcosystem() {
@@ -102,13 +102,21 @@ export function FeaturesEcosystem() {
             })}
           </svg>
 
-          {/* Central Hub Node */}
+          {/* Central Hub Node — ring rotates, logo stays upright via counter-rotation */}
           <motion.div
             className="z-10 flex h-24 w-24 items-center justify-center rounded-full border border-primary/40 bg-zinc-950 shadow-2xl glow-primary"
             animate={{ rotate: 360 }}
             transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           >
-            <Flame className="h-10 w-10 text-primary fill-primary" />
+            <motion.img
+              src="/images/logo-mark.png"
+              alt="DIYNEZA"
+              width={48}
+              height={48}
+              className="h-12 w-12 object-contain"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+            />
           </motion.div>
 
           {/* Orbiting Satellite Nodes */}

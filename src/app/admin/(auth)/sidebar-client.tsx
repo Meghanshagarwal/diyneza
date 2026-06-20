@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Flame,
   LayoutDashboard,
   Inbox,
   Tag,
@@ -48,7 +47,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
       {/* Mobile Top Header */}
       <div className="md:hidden flex items-center justify-between border-b border-zinc-900 bg-zinc-950 px-6 py-4 z-40 relative">
         <Link href="/admin/dashboard" className="flex items-center space-x-2">
-          <Flame className="h-5 w-5 text-primary fill-primary" />
+          <img src="/images/logo-mark.png" alt="DIYNEZA" width={20} height={20} className="h-5 w-5 object-contain" />
           <span className="font-heading text-sm font-bold tracking-tight text-white">
             DIYNEZA ADMIN
           </span>
@@ -78,7 +77,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
         <div className="space-y-8">
           {/* Logo */}
           <div className="hidden md:flex items-center space-x-2.5">
-            <Flame className="h-6 w-6 text-primary fill-primary" />
+            <img src="/images/logo-mark.png" alt="DIYNEZA" width={24} height={24} className="h-6 w-6 object-contain" />
             <span className="font-heading text-base font-bold tracking-tight text-white">
               DIYNEZA<span className="text-primary">.</span>
               <span className="text-[9px] uppercase tracking-widest text-zinc-500 bg-zinc-900 border border-zinc-850 px-2 py-0.5 rounded ml-2">
