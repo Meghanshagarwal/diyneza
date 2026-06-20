@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+build
+diyneza.tar.gz
+.git
+.gitignore
+AGENTS.md
+CLAUDE.md
+README.md
+Dockerfile
+.dockerignore
