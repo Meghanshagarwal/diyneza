@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import { Providers } from "./providers";
 import { siteConfig } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
+import { DynamicTitle } from "@/components/seo/dynamic-title";
 import { globalGraph } from "@/lib/schema";
 import { Analytics } from "@/components/analytics/analytics";
 import { EngagementTracker } from "@/components/analytics/engagement-tracker";
@@ -92,6 +93,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-dark-bg text-white selection:bg-primary selection:text-black overflow-x-hidden">
         {/* Global entity graph: Organization ↔ Founder (Meghansh Agarwal) ↔ WebSite */}
         <JsonLd data={globalGraph()} />
+        <DynamicTitle />
         <Analytics />
         <Suspense fallback={null}>
           <EngagementTracker />
