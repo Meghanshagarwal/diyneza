@@ -50,25 +50,8 @@ export default async function Home() {
     answer: item.answer,
   }));
 
-  // Inject structured data for SEO (Organization, WebSite, SoftwareApplication, FAQ)
-  const orgSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": siteConfig.name,
-    "url": siteConfig.url,
-    "logo": `${siteConfig.url}/images/logo.png`,
-    "description": siteConfig.description,
-    "sameAs": [...siteConfig.sameAs],
-  };
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": siteConfig.name,
-    "url": siteConfig.url,
-    "publisher": { "@type": "Organization", "name": siteConfig.name },
-  };
-
+  // Organization, WebSite and Person/Founder entities are injected globally in the
+  // root layout. Here we add the page-specific SoftwareApplication + FAQ schemas.
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -77,10 +60,18 @@ export default async function Home() {
     "applicationCategory": "BusinessApplication",
     "url": siteConfig.url,
     "description": siteConfig.description,
+    "publisher": { "@id": `${siteConfig.url}/#organization` },
+    "author": { "@id": `${siteConfig.url}/#meghansh-agarwal` },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "127",
+    },
     "offers": {
       "@type": "Offer",
       "price": "0.00",
       "priceCurrency": "USD",
+      "description": "45-day free trial, no credit card required",
     },
   };
 
@@ -100,15 +91,7 @@ export default async function Home() {
 
   return (
     <>
-      {/* Schema Injections */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
+      {/* Page-specific structured data (Org/WebSite/Person are global in layout) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}

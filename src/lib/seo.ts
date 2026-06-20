@@ -32,6 +32,35 @@ export const siteConfig = {
     "https://linkedin.com/company/diyneza",
     "https://github.com/diyneza",
   ],
+  email: "hello@diyneza.com",
+  phone: "+1-555-012-3456",
+  foundingYear: "2024",
+} as const;
+
+// Founder / author entity — connected to the Organization across every schema,
+// the About page, and blog articles to strengthen E-E-A-T and Knowledge Graph signals.
+export const founder = {
+  name: "Meghansh Agarwal",
+  jobTitle: "Founder & CEO",
+  url: "https://diyneza.com/about",
+  // The canonical Person entity id, referenced via @id from Organization.founder,
+  // article authors, and the About ProfilePage.
+  id: "https://diyneza.com/#meghansh-agarwal",
+  image: "https://diyneza.com/images/logo-mark.png",
+  description:
+    "Meghansh Agarwal is the founder of DIYNEZA, a unified restaurant management platform. He builds technology that helps restaurants run POS, inventory, kitchen operations, and multi-outlet management from a single system.",
+  sameAs: [
+    "https://www.linkedin.com/in/meghanshagarwal",
+    "https://twitter.com/meghanshagarwal",
+    "https://github.com/Meghanshagarwal",
+  ],
+  knowsAbout: [
+    "Restaurant management software",
+    "Point of sale systems",
+    "Restaurant inventory management",
+    "Cloud kitchen operations",
+    "SaaS product development",
+  ],
 } as const;
 
 // Build an absolute URL from a path (e.g. "/blog" -> "https://diyneza.com/blog").

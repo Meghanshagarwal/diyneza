@@ -4,16 +4,20 @@ import * as React from "react";
 import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
+import { trackFormStart, trackFormSubmit, trackFormSuccess, trackFormError } from "@/lib/analytics";
 
 export function CTA() {
   const [email, setEmail] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const startedRef = React.useRef(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
+
+    trackFormSubmit("homepage_cta");
     setLoading(true);
     try {
       const supabase = createClient();
@@ -29,12 +33,14 @@ export function CTA() {
 
       if (error) throw error;
 
+      trackFormSuccess("homepage_cta");
       setSuccess(true);
       setEmail("");
       setTimeout(() => setSuccess(false), 4000);
     } catch (err) {
       console.error("Error submitting lead:", err);
-      alert("Failed to submit request. Please try again.");
+      setError("Failed to submit request. Please try again.");
+      trackFormError("homepage_cta", err instanceof Error ? err.message : "insert failed");
     } finally {
       setLoading(false);
     }
@@ -68,8 +74,17 @@ export function CTA() {
           <form onSubmit={handleSubmit} className="mx-auto mt-10 max-w-md flex flex-col sm:flex-row gap-3">
             <input
               type="email"
+              name="email"
+              autoComplete="email"
+              aria-label="Work email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => {
+                if (!startedRef.current) {
+                  startedRef.current = true;
+                  trackFormStart("homepage_cta");
+                }
+              }}
               placeholder="Enter your work email"
               required
               disabled={loading || success}
@@ -94,6 +109,10 @@ export function CTA() {
               )}
             </Button>
           </form>
+
+          {error && (
+            <p className="mt-3 text-xs text-red-400" role="alert">{error}</p>
+          )}
 
           <p className="mt-4 text-xs text-zinc-500 font-medium">
             45-day free trial · No credit card required · Cancel anytime.

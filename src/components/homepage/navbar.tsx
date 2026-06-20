@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, ArrowRight, ShieldCheck, Cpu, Database, QrCode } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
+import { trackCTA } from "@/lib/analytics";
 
 interface NavItem {
   name: string;
@@ -144,6 +145,7 @@ export function Navbar() {
           </Link>
           <Link
             href="/contact?intent=demo"
+            onClick={() => trackCTA("Book a Demo", "navbar")}
             className="inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2 text-sm font-heading font-medium text-black transition-all hover:bg-primary-light hover:scale-[1.02] glow-primary"
           >
             <span>Book a Demo</span>

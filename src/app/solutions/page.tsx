@@ -4,6 +4,8 @@ import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { CheckCircle2, Monitor, Printer, Smartphone } from "lucide-react";
 import { solutionsData } from "@/data/solutions";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Solutions by Restaurant Profile",
@@ -33,6 +35,21 @@ export default function SolutionsPage() {
 
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: "Restaurant Solutions by Profile",
+          description:
+            "Tailored POS setups and hardware bundles for QSR chains, cafes, bakeries, fine dining, and cloud kitchens.",
+          path: "/solutions",
+          serviceType: "Restaurant POS solutions",
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Solutions", path: "/solutions" },
+        ])}
+      />
       <Navbar />
 
       <main className="flex-1 bg-dark-bg text-white">

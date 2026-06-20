@@ -4,6 +4,13 @@ import * as React from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import {
+  trackFormStart,
+  trackFieldFocus,
+  trackFormSubmit,
+  trackFormSuccess,
+  trackFormError,
+} from "@/lib/analytics";
 
 const OUTLET_OPTIONS = ["1 outlet", "2–5 outlets", "6–20 outlets", "20+ outlets"];
 
@@ -25,10 +32,22 @@ export function ContactForm() {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const startedRef = React.useRef(false);
+
+  const formName = `contact_${source.toLowerCase().replace(/\s+/g, "_")}`;
 
   const update = (key: keyof typeof form) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  // Fire form_start once, on the first field interaction.
+  const handleFocus = (field: string) => () => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackFormStart(formName);
+    }
+    trackFieldFocus(formName, field);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,9 +55,11 @@ export function ContactForm() {
 
     if (!form.name.trim() || !form.email.trim()) {
       setError("Please enter your name and email.");
+      trackFormError(formName, "missing required fields");
       return;
     }
 
+    trackFormSubmit(formName);
     setLoading(true);
     try {
       const supabase = createClient();
@@ -64,11 +85,14 @@ export function ContactForm() {
 
       if (insertError) throw insertError;
 
+      trackFormSuccess(formName);
+      startedRef.current = false;
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", restaurant: "", outlets: OUTLET_OPTIONS[0], message: "" });
     } catch (err) {
       console.error("Lead submission failed:", err);
       setError("Something went wrong. Please try again or email hello@diyneza.com.");
+      trackFormError(formName, err instanceof Error ? err.message : "insert failed");
     } finally {
       setLoading(false);
     }
@@ -102,26 +126,26 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-2">Full name *</label>
-          <input className={inputClass} value={form.name} onChange={update("name")} placeholder="Jane Doe" required />
+          <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-name">Full name *</label>
+          <input id="cf-name" name="name" autoComplete="name" className={inputClass} value={form.name} onChange={update("name")} onFocus={handleFocus("name")} placeholder="Jane Doe" required />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-2">Work email *</label>
-          <input type="email" className={inputClass} value={form.email} onChange={update("email")} placeholder="jane@restaurant.com" required />
+          <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-email">Work email *</label>
+          <input id="cf-email" name="email" type="email" autoComplete="email" className={inputClass} value={form.email} onChange={update("email")} onFocus={handleFocus("email")} placeholder="jane@restaurant.com" required />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-2">Phone</label>
-          <input type="tel" className={inputClass} value={form.phone} onChange={update("phone")} placeholder="+1 555 000 0000" />
+          <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-phone">Phone</label>
+          <input id="cf-phone" name="phone" type="tel" autoComplete="tel" className={inputClass} value={form.phone} onChange={update("phone")} onFocus={handleFocus("phone")} placeholder="+1 555 000 0000" />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-2">Restaurant / brand</label>
-          <input className={inputClass} value={form.restaurant} onChange={update("restaurant")} placeholder="The Burger Hub" />
+          <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-restaurant">Restaurant / brand</label>
+          <input id="cf-restaurant" name="organization" autoComplete="organization" className={inputClass} value={form.restaurant} onChange={update("restaurant")} onFocus={handleFocus("restaurant")} placeholder="The Burger Hub" />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-zinc-400 mb-2">Number of outlets</label>
-        <select className={inputClass} value={form.outlets} onChange={update("outlets")}>
+        <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-outlets">Number of outlets</label>
+        <select id="cf-outlets" name="outlets" className={inputClass} value={form.outlets} onChange={update("outlets")} onFocus={handleFocus("outlets")}>
           {OUTLET_OPTIONS.map((o) => (
             <option key={o} value={o} className="bg-zinc-900">{o}</option>
           ))}
@@ -129,11 +153,14 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-zinc-400 mb-2">How can we help?</label>
+        <label className="block text-xs font-semibold text-zinc-400 mb-2" htmlFor="cf-message">How can we help?</label>
         <textarea
+          id="cf-message"
+          name="message"
           className={`${inputClass} min-h-[120px] resize-y`}
           value={form.message}
           onChange={update("message")}
+          onFocus={handleFocus("message")}
           placeholder={isTrial ? "Tell us about your restaurant and what you'd like to try…" : "Tell us what you'd like to see in the demo…"}
         />
       </div>

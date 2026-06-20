@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { CheckCircle2, ShieldCheck, Database, LayoutGrid, Smartphone, BarChart3, Users, ArrowRight } from "lucide-react";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Modules & Products Overview",
@@ -167,6 +169,21 @@ export default function ProductsPage() {
 
   return (
     <>
+      <JsonLd
+        data={serviceSchema({
+          name: "Restaurant Management Platform",
+          description:
+            "Cloud POS & billing, real-time recipe inventory, Kitchen Display System (KDS), and QR tableside ordering for restaurants.",
+          path: "/products",
+          serviceType: "Restaurant management software",
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+        ])}
+      />
       <Navbar />
 
       <main className="flex-1 bg-dark-bg text-white">

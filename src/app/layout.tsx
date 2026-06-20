@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Providers } from "./providers";
 import { siteConfig } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { globalGraph } from "@/lib/schema";
+import { Analytics } from "@/components/analytics/analytics";
+import { EngagementTracker } from "@/components/analytics/engagement-tracker";
+import { Suspense } from "react";
 import "./globals.css";
 
 const inter = Inter({
@@ -85,6 +90,12 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-dark-bg text-white selection:bg-primary selection:text-black overflow-x-hidden">
+        {/* Global entity graph: Organization ↔ Founder (Meghansh Agarwal) ↔ WebSite */}
+        <JsonLd data={globalGraph()} />
+        <Analytics />
+        <Suspense fallback={null}>
+          <EngagementTracker />
+        </Suspense>
         <Providers>
           <div className="w-full overflow-x-hidden flex flex-col min-h-screen relative">
             {children}
