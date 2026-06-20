@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
+  BarChart3,
   Inbox,
   Tag,
   FileText,
@@ -33,6 +34,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
     { name: "Journal CMS", href: "/admin/blog", icon: FileText },
     { name: "FAQs Manager", href: "/admin/faqs", icon: HelpCircle },
     { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
+    { name: "Analytics & Tracking", href: "/admin/settings", icon: BarChart3 },
   ];
 
   const handleLogout = async () => {

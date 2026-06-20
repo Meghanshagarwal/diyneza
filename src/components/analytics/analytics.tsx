@@ -1,9 +1,16 @@
 "use client";
 
 import Script from "next/script";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 import { GA4_ID, META_PIXEL_ID, CLARITY_ID, pageview } from "@/lib/analytics";
+
+interface Ids {
+  ga4: string;
+  metaPixel: string;
+  clarity: string;
+}
 
 /** Tracks client-side route changes as GA4 page_view + Meta PageView. */
 function RouteChangeTracker() {
@@ -20,33 +27,62 @@ function RouteChangeTracker() {
 }
 
 /**
- * Loads GA4, Meta Pixel, and Microsoft Clarity. Each block only renders when its
- * env var is set, so the site works with or without analytics configured.
+ * Loads GA4, Meta Pixel, and Microsoft Clarity. IDs are resolved at runtime from
+ * the admin-editable `site_settings` table (Supabase), falling back to env vars.
+ * This lets the analytics IDs be changed from the admin dashboard without a redeploy.
  */
 export function Analytics() {
+  const [ids, setIds] = useState<Ids>({
+    ga4: GA4_ID || "",
+    metaPixel: META_PIXEL_ID || "",
+    clarity: CLARITY_ID || "",
+  });
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase
+          .from("site_settings")
+          .select("key, value")
+          .in("key", ["ga4_id", "meta_pixel_id", "clarity_id"]);
+        if (!active || !data) return;
+        const map = Object.fromEntries(data.map((r: any) => [r.key, r.value]));
+        setIds({
+          ga4: map.ga4_id || GA4_ID || "",
+          metaPixel: map.meta_pixel_id || META_PIXEL_ID || "",
+          clarity: map.clarity_id || CLARITY_ID || "",
+        });
+      } catch {
+        // keep env fallbacks
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <>
       {/* Google Analytics 4 */}
-      {GA4_ID && (
+      {ids.ga4 && (
         <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
-            strategy="afterInteractive"
-          />
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${ids.ga4}`} strategy="afterInteractive" />
           <Script id="ga4-init" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               window.gtag = gtag;
               gtag('js', new Date());
-              gtag('config', '${GA4_ID}', { send_page_view: true });
+              gtag('config', '${ids.ga4}', { send_page_view: true });
             `}
           </Script>
         </>
       )}
 
       {/* Meta Pixel */}
-      {META_PIXEL_ID && (
+      {ids.metaPixel && (
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -57,21 +93,21 @@ export function Analytics() {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window,document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${META_PIXEL_ID}');
+            fbq('init', '${ids.metaPixel}');
             fbq('track', 'PageView');
           `}
         </Script>
       )}
 
       {/* Microsoft Clarity */}
-      {CLARITY_ID && (
+      {ids.clarity && (
         <Script id="ms-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
               t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
               y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "${CLARITY_ID}");
+            })(window, document, "clarity", "script", "${ids.clarity}");
           `}
         </Script>
       )}
