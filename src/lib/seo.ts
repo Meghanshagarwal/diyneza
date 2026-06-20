@@ -63,6 +63,38 @@ export const founder = {
   ],
 } as const;
 
+export interface FounderProfile {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
+}
+
+// Static fallback rendered when the founders table is empty / unavailable.
+// Editable from the admin dashboard once the migration is run.
+export const defaultFounders: FounderProfile[] = [
+  {
+    name: "Meghansh Agarwal",
+    role: "Founder & CEO",
+    bio: founder.description,
+    image: "/images/logo-mark.png",
+    linkedin: founder.sameAs[0],
+    twitter: founder.sameAs[1],
+    github: founder.sameAs[2],
+  },
+  {
+    name: "Roop Jaiswal",
+    role: "Co-Founder",
+    bio: "Roop Jaiswal is the co-founder of DIYNEZA. He leads product and operations, focused on building reliable, restaurant-grade software that scales from a single outlet to large multi-brand chains.",
+    image: "/images/logo-mark.png",
+    linkedin: "https://www.linkedin.com/in/roopjaiswal",
+    twitter: "https://twitter.com/roopjaiswal",
+  },
+];
+
 // Build an absolute URL from a path (e.g. "/blog" -> "https://diyneza.com/blog").
 export function absoluteUrl(path = "/"): string {
   return new URL(path, siteConfig.url).toString();

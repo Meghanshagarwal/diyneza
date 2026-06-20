@@ -3,9 +3,12 @@ import Link from "next/link";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { JsonLd } from "@/components/seo/json-ld";
-import { breadcrumbSchema, personSchema } from "@/lib/schema";
-import { founder, siteConfig } from "@/lib/seo";
+import { breadcrumbSchema } from "@/lib/schema";
+import { siteConfig, defaultFounders, type FounderProfile } from "@/lib/seo";
+import { createClient } from "@/utils/supabase/server";
 import { Target, Heart, Zap, Globe, ArrowRight } from "lucide-react";
+
+export const revalidate = 0;
 
 const SOCIAL_PATHS = {
   linkedin: "M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z",
@@ -45,16 +48,56 @@ const stats = [
   { value: "<24h", label: "Avg. onboarding" },
 ];
 
-const profilePageSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "dateModified": "2026-06-20",
-  "mainEntity": personSchema(),
-  "about": { "@id": `${siteConfig.url}/#organization` },
-  "url": `${siteConfig.url}/about`,
-};
+function absolutize(url?: string) {
+  if (!url) return undefined;
+  return url.startsWith("http") ? url : `${siteConfig.url}${url}`;
+}
 
-export default function AboutPage() {
+function founderPersonSchema(f: FounderProfile, index: number) {
+  const id = `${siteConfig.url}/#${f.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+  return {
+    "@type": "Person",
+    "@id": id,
+    name: f.name,
+    jobTitle: f.role,
+    description: f.bio,
+    image: absolutize(f.image),
+    url: `${siteConfig.url}/about`,
+    sameAs: [f.linkedin, f.twitter, f.github].filter(Boolean),
+    [index === 0 ? "founderOf" : "memberOf"]: { "@id": `${siteConfig.url}/#organization` },
+    worksFor: { "@id": `${siteConfig.url}/#organization` },
+  };
+}
+
+export default async function AboutPage() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("founders")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  const founders: FounderProfile[] =
+    data && data.length > 0
+      ? data.map((f: any) => ({
+          name: f.name,
+          role: f.role || "",
+          bio: f.bio || "",
+          image: f.image || "/images/logo-mark.png",
+          linkedin: f.linkedin || undefined,
+          twitter: f.twitter || undefined,
+          github: f.github || undefined,
+        }))
+      : defaultFounders;
+
+  const profilePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    dateModified: new Date().toISOString().slice(0, 10),
+    mainEntity: founders.map((f, i) => founderPersonSchema(f, i)),
+    about: { "@id": `${siteConfig.url}/#organization` },
+    url: `${siteConfig.url}/about`,
+  };
+
   return (
     <>
       <JsonLd data={profilePageSchema} />
@@ -120,41 +163,58 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Founder */}
+        {/* Founders */}
         <section className="border-t border-zinc-900 py-20">
-          <div className="mx-auto max-w-4xl px-6">
+          <div className="mx-auto max-w-5xl px-6">
             <span className="font-heading text-xs font-semibold tracking-widest text-primary uppercase">
               Leadership
             </span>
-            <h2 className="mt-4 font-heading text-3xl font-bold">Meet the founder</h2>
-            <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-start">
-              <img
-                src="/images/logo-mark.png"
-                alt="Meghansh Agarwal, Founder of DIYNEZA"
-                width={120}
-                height={120}
-                className="h-28 w-28 shrink-0 rounded-2xl border border-zinc-800 bg-zinc-900/40 object-contain p-4"
-              />
-              <div>
-                <h3 className="font-heading text-2xl font-bold text-white">{founder.name}</h3>
-                <p className="mt-1 text-sm font-semibold text-primary">{founder.jobTitle}, DIYNEZA</p>
-                <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-                  {founder.description} Under his leadership, DIYNEZA has grown into a unified
-                  operating system trusted by thousands of restaurants, cafes, and multi-outlet
-                  chains worldwide — replacing fragmented tools with one fast, reliable platform.
-                </p>
-                <div className="mt-5 flex items-center gap-4">
-                  <a href={founder.sameAs[0]} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on LinkedIn`} className="text-zinc-500 hover:text-primary transition-colors">
-                    <SocialIcon path={SOCIAL_PATHS.linkedin} />
-                  </a>
-                  <a href={founder.sameAs[1]} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on Twitter`} className="text-zinc-500 hover:text-primary transition-colors">
-                    <SocialIcon path={SOCIAL_PATHS.twitter} />
-                  </a>
-                  <a href={founder.sameAs[2]} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on GitHub`} className="text-zinc-500 hover:text-primary transition-colors">
-                    <SocialIcon path={SOCIAL_PATHS.github} />
-                  </a>
-                </div>
-              </div>
+            <h2 className="mt-4 font-heading text-3xl font-bold">
+              {founders.length > 1 ? "Meet the founders" : "Meet the founder"}
+            </h2>
+            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
+              {founders.map((f) => {
+                const socials = [
+                  { href: f.linkedin, label: "LinkedIn", path: SOCIAL_PATHS.linkedin },
+                  { href: f.twitter, label: "Twitter", path: SOCIAL_PATHS.twitter },
+                  { href: f.github, label: "GitHub", path: SOCIAL_PATHS.github },
+                ].filter((s) => s.href);
+                return (
+                  <div
+                    key={f.name}
+                    className="flex flex-col gap-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-8 sm:flex-row sm:items-start"
+                  >
+                    <img
+                      src={f.image || "/images/logo-mark.png"}
+                      alt={`${f.name}, ${f.role} of DIYNEZA`}
+                      width={96}
+                      height={96}
+                      className="h-24 w-24 shrink-0 rounded-2xl border border-zinc-800 bg-zinc-900/40 object-cover"
+                    />
+                    <div>
+                      <h3 className="font-heading text-xl font-bold text-white">{f.name}</h3>
+                      <p className="mt-1 text-sm font-semibold text-primary">{f.role}, DIYNEZA</p>
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-400">{f.bio}</p>
+                      {socials.length > 0 && (
+                        <div className="mt-4 flex items-center gap-4">
+                          {socials.map((s) => (
+                            <a
+                              key={s.label}
+                              href={s.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${f.name} on ${s.label}`}
+                              className="text-zinc-500 hover:text-primary transition-colors"
+                            >
+                              <SocialIcon path={s.path} />
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

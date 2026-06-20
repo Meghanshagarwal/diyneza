@@ -11,6 +11,7 @@ import {
   FileText,
   HelpCircle,
   MessageSquare,
+  Users,
   Globe,
   LogOut,
   Menu,
@@ -34,6 +35,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
     { name: "Journal CMS", href: "/admin/blog", icon: FileText },
     { name: "FAQs Manager", href: "/admin/faqs", icon: HelpCircle },
     { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
+    { name: "Founders", href: "/admin/founders", icon: Users },
     { name: "Analytics & Tracking", href: "/admin/settings", icon: BarChart3 },
   ];
 
