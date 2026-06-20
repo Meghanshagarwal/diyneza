@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { siteConfig } from "@/lib/seo";
 import { competitors } from "@/data/competitors";
+import { cities } from "@/data/cities";
+import { solutionsData } from "@/data/solutions";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
@@ -68,7 +70,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/restaurant-pos`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/sitemap-page`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.3,
+    },
   ];
+
+  // Solution detail + city pages (SEO landing pages).
+  const solutionRoutes: MetadataRoute.Sitemap = solutionsData.map((s) => ({
+    url: `${baseUrl}/solutions/${s.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+  const cityRoutes: MetadataRoute.Sitemap = cities.map((c) => ({
+    url: `${baseUrl}/restaurant-pos/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
 
   // Competitor "alternative" comparison pages (high-intent SEO).
   const alternativeRoutes: MetadataRoute.Sitemap = competitors.map((c) => ({
@@ -101,5 +129,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Ignore — static routes are still emitted.
   }
 
-  return [...staticRoutes, ...alternativeRoutes, ...blogRoutes];
+  return [
+    ...staticRoutes,
+    ...alternativeRoutes,
+    ...solutionRoutes,
+    ...cityRoutes,
+    ...blogRoutes,
+  ];
 }

@@ -106,6 +106,9 @@ export function Footer() {
           <Link href="/contact" className="hover:text-white transition-colors">
             Contact
           </Link>
+          <Link href="/sitemap-page" className="hover:text-white transition-colors">
+            Sitemap
+          </Link>
         </div>
       </div>
     </footer>

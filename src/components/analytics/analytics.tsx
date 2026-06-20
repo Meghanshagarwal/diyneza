@@ -5,6 +5,7 @@ import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { GA4_ID, META_PIXEL_ID, CLARITY_ID, pageview } from "@/lib/analytics";
+import { hasAnalyticsConsent, CONSENT_EVENT } from "@/components/conversion/cookie-consent";
 
 interface Ids {
   ga4: string;
@@ -37,6 +38,15 @@ export function Analytics() {
     metaPixel: META_PIXEL_ID || "",
     clarity: CLARITY_ID || "",
   });
+  const [consent, setConsent] = useState(false);
+
+  // Load analytics only after the visitor accepts cookies (GDPR-friendly).
+  useEffect(() => {
+    setConsent(hasAnalyticsConsent());
+    const onChange = (e: Event) => setConsent((e as CustomEvent).detail === "accepted");
+    window.addEventListener(CONSENT_EVENT, onChange);
+    return () => window.removeEventListener(CONSENT_EVENT, onChange);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -66,7 +76,7 @@ export function Analytics() {
   return (
     <>
       {/* Google Analytics 4 */}
-      {ids.ga4 && (
+      {consent && ids.ga4 && (
         <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${ids.ga4}`} strategy="afterInteractive" />
           <Script id="ga4-init" strategy="afterInteractive">
@@ -82,7 +92,7 @@ export function Analytics() {
       )}
 
       {/* Meta Pixel */}
-      {ids.metaPixel && (
+      {consent && ids.metaPixel && (
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -100,7 +110,7 @@ export function Analytics() {
       )}
 
       {/* Microsoft Clarity */}
-      {ids.clarity && (
+      {consent && ids.clarity && (
         <Script id="ms-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){

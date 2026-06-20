@@ -6,7 +6,7 @@ import { Footer } from "@/components/homepage/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/seo";
-import { competitors, getCompetitor, diynezaHighlights } from "@/data/competitors";
+import { competitors, getCompetitor, diynezaHighlights, comparisonRows } from "@/data/competitors";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 
 interface RouteParams {
@@ -104,7 +104,40 @@ export default async function AlternativePage({ params }: RouteParams) {
           </div>
         </section>
 
-        {/* Comparison checklist */}
+        {/* Comparison table */}
+        <section className="border-t border-zinc-900 py-16">
+          <div className="mx-auto max-w-3xl px-6">
+            <h2 className="font-heading text-3xl font-bold text-center">DIYNEZA vs {c.name}</h2>
+            <p className="mt-3 text-center text-sm text-zinc-500">Feature-by-feature at a glance.</p>
+            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-800">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-zinc-800 bg-zinc-900/40 text-left">
+                    <th className="px-4 py-3 font-heading font-semibold text-zinc-300">Feature</th>
+                    <th className="px-4 py-3 text-center font-heading font-bold text-primary">DIYNEZA</th>
+                    <th className="px-4 py-3 text-center font-heading font-semibold text-zinc-400">{c.name}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonRows.map((row, i) => (
+                    <tr key={row.feature} className={i % 2 ? "bg-zinc-900/10" : ""}>
+                      <td className="px-4 py-3 text-zinc-300">{row.feature}</td>
+                      <td className="px-4 py-3 text-center">
+                        <CheckCircle2 className="mx-auto h-5 w-5 text-primary" />
+                      </td>
+                      <td className="px-4 py-3 text-center text-xs text-zinc-500">Plan-dependent</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-xs text-zinc-600">
+              {c.name} feature availability varies by plan — confirm current details on their official site. Comparison reflects DIYNEZA&apos;s standard capabilities.
+            </p>
+          </div>
+        </section>
+
+        {/* Capabilities checklist */}
         <section className="border-t border-zinc-900 py-16">
           <div className="mx-auto max-w-3xl px-6">
             <h2 className="font-heading text-3xl font-bold text-center">What you get with DIYNEZA</h2>

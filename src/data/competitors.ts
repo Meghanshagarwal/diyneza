@@ -12,6 +12,19 @@ export interface Competitor {
   faqs: { question: string; answer: string }[];
 }
 
+// Feature-by-feature comparison grid. DIYNEZA values are factual; the competitor
+// column is intentionally neutral ("Plan-dependent") to avoid unverified claims.
+export const comparisonRows: { feature: string; diyneza: boolean }[] = [
+  { feature: "All-in-one POS, inventory, KDS & ordering", diyneza: true },
+  { feature: "0% commission on direct QR / online orders", diyneza: true },
+  { feature: "Offline-first billing", diyneza: true },
+  { feature: "Real-time recipe costing & auto purchase orders", diyneza: true },
+  { feature: "Multi-outlet / franchise management", diyneza: true },
+  { feature: "Branded online ordering storefront", diyneza: true },
+  { feature: "Role-based staff access (RBAC)", diyneza: true },
+  { feature: "45-day free trial, no credit card", diyneza: true },
+];
+
 // DIYNEZA's headline capabilities (shown as a checklist on every page).
 export const diynezaHighlights = [
   "All-in-one: POS, billing, inventory, KDS & QR ordering in one platform",
@@ -123,6 +136,91 @@ export const competitors: Competitor[] = [
       { question: "Is DIYNEZA an alternative to DotPe?", answer: "Yes. DIYNEZA adds full POS, billing, inventory and KDS alongside commission-free QR ordering, in one platform with a 45-day free trial." },
       { question: "Are direct orders commission-free?", answer: "Yes, direct QR and storefront orders carry 0% commission." },
       { question: "Does it support offline billing?", answer: "Yes — billing continues offline and syncs when reconnected." },
+    ],
+  },
+  {
+    slug: "toast",
+    name: "Toast",
+    blurb:
+      "Toast is a well-known restaurant POS popular in the US. Restaurants wanting an all-in-one platform with commission-free direct ordering and a long free trial often compare DIYNEZA.",
+    switchReasons: [
+      { title: "All-in-one platform", desc: "POS, inventory, KDS, QR ordering and reporting in one connected system." },
+      { title: "Commission-free direct orders", desc: "Keep 100% of revenue from QR and your own storefront." },
+      { title: "Offline-first billing", desc: "Sell through outages; transactions auto-sync." },
+      { title: "45-day free trial", desc: "Full access, no credit card, cancel anytime." },
+    ],
+    faqs: [
+      { question: "Is DIYNEZA a Toast alternative?", answer: "Yes. DIYNEZA offers POS, billing, inventory, KDS and commission-free QR ordering in one platform with a 45-day free trial — a strong Toast alternative." },
+      { question: "Can I migrate from Toast?", answer: "Yes, our team helps import your menu, inventory and recipes with setup in under 24 hours." },
+      { question: "Is there a free trial?", answer: "Yes — 45 days free, no credit card required." },
+    ],
+  },
+  {
+    slug: "square",
+    name: "Square for Restaurants",
+    blurb:
+      "Square for Restaurants is a widely used POS. Teams that need deeper recipe inventory, KDS and commission-free ordering in the same platform frequently evaluate DIYNEZA.",
+    switchReasons: [
+      { title: "Deeper restaurant operations", desc: "Recipe costing, auto purchase orders and KDS built for kitchens." },
+      { title: "Commission-free direct channel", desc: "Own your online storefront with 0% commission." },
+      { title: "Multi-outlet ready", desc: "Manage many locations from one dashboard." },
+      { title: "45-day free trial", desc: "Evaluate everything risk-free." },
+    ],
+    faqs: [
+      { question: "Is DIYNEZA a Square for Restaurants alternative?", answer: "Yes. DIYNEZA adds recipe inventory, KDS and commission-free QR ordering alongside POS & billing, with a 45-day free trial." },
+      { question: "Does DIYNEZA handle inventory?", answer: "Yes — real-time recipe-based stock deduction with automated purchase orders." },
+      { question: "How fast is onboarding?", answer: "Most restaurants go live within 24 hours." },
+    ],
+  },
+  {
+    slug: "gofrugal",
+    name: "Gofrugal",
+    blurb:
+      "Gofrugal offers POS for retail and restaurants. Restaurants seeking a modern, cloud-native, commission-free platform often compare DIYNEZA.",
+    switchReasons: [
+      { title: "Cloud-native & modern", desc: "Fast, reliable cloud platform purpose-built for restaurants." },
+      { title: "Commission-free orders", desc: "0% commission on direct QR and storefront orders." },
+      { title: "Live inventory & costing", desc: "Recipe-level stock control and food-cost visibility." },
+      { title: "45-day free trial", desc: "No credit card, cancel anytime." },
+    ],
+    faqs: [
+      { question: "Is DIYNEZA a Gofrugal alternative?", answer: "Yes. DIYNEZA is an all-in-one cloud restaurant platform — POS, inventory, KDS and QR ordering — with a 45-day free trial." },
+      { question: "Does it support multiple outlets?", answer: "Yes, multi-outlet management is built in." },
+      { question: "Is direct ordering commission-free?", answer: "Yes, 0% commission on direct QR and storefront orders." },
+    ],
+  },
+  {
+    slug: "slickpos",
+    name: "SlickPOS",
+    blurb:
+      "SlickPOS is a cloud restaurant billing solution. Restaurants wanting more inventory depth, KDS and commission-free ordering in one platform often consider DIYNEZA.",
+    switchReasons: [
+      { title: "One connected platform", desc: "Billing, inventory, KDS and ordering work together natively." },
+      { title: "Commission-free direct orders", desc: "Keep all revenue from your own channels." },
+      { title: "Offline-first reliability", desc: "Billing keeps working during outages." },
+      { title: "45-day free trial", desc: "Full platform access, no credit card." },
+    ],
+    faqs: [
+      { question: "Is DIYNEZA a SlickPOS alternative?", answer: "Yes. DIYNEZA delivers POS, inventory, KDS and commission-free QR ordering in one platform with a 45-day free trial." },
+      { question: "Can I import my menu?", answer: "Yes — guided menu and inventory import, live in under 24 hours." },
+      { question: "Is there a free trial?", answer: "Yes, 45 days free with no credit card." },
+    ],
+  },
+  {
+    slug: "zomato-pos",
+    name: "Zomato POS",
+    blurb:
+      "Zomato POS serves restaurants on the Zomato ecosystem. Restaurants wanting an independent, all-in-one, commission-free platform commonly evaluate DIYNEZA.",
+    switchReasons: [
+      { title: "Independent & all-in-one", desc: "Own your full stack — POS, inventory, KDS and ordering — not tied to one aggregator." },
+      { title: "Commission-free direct orders", desc: "Build your own commission-free ordering channel." },
+      { title: "Recipe costing & inventory", desc: "Control food cost with real-time stock." },
+      { title: "45-day free trial", desc: "Evaluate risk-free, cancel anytime." },
+    ],
+    faqs: [
+      { question: "Is DIYNEZA a Zomato POS alternative?", answer: "Yes. DIYNEZA is an independent all-in-one restaurant platform with POS, inventory, KDS and commission-free QR ordering, plus a 45-day free trial." },
+      { question: "Does DIYNEZA work with aggregators?", answer: "Yes — you can route aggregator orders into your central POS and kitchen while also running commission-free direct orders." },
+      { question: "How long does setup take?", answer: "Under 24 hours with full data import help." },
     ],
   },
 ];

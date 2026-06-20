@@ -1,0 +1,24 @@
+# DIYNEZA
+
+> DIYNEZA is an all-in-one restaurant management platform. It unifies POS & billing, real-time inventory, Kitchen Display System (KDS), QR & tableside ordering, and multi-outlet operations in a single cloud system. Founded by Meghansh Agarwal (Founder & CEO) and Roop Jaiswal (Co-Founder). 45-day free trial, no credit card, cancel anytime.
+
+## Key facts
+- Product: Restaurant management software / cloud POS
+- Founders: Meghansh Agarwal (Founder & CEO), Roop Jaiswal (Co-Founder)
+- Core modules: POS & billing, inventory & recipe costing, KDS, QR/tableside ordering, multi-outlet management, online ordering storefront
+- Differentiators: all-in-one platform, 0% commission on direct orders, offline-first billing, 45-day free trial
+- Best for: cafes, QSR chains, fine dining, bakeries, cloud kitchens
+
+## Important pages
+- Home: https://diyneza.com/
+- Products: https://diyneza.com/products
+- Solutions: https://diyneza.com/solutions
+- Pricing: https://diyneza.com/pricing
+- About (founders): https://diyneza.com/about
+- Contact / Book a demo: https://diyneza.com/contact
+- Journal (blog): https://diyneza.com/blog
+- Compare alternatives: https://diyneza.com/alternatives
+
+## Contact
+- Email: hello@diyneza.com
+- Sitemap: https://diyneza.com/sitemap.xml

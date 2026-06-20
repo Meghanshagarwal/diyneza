@@ -7,6 +7,7 @@ import { DynamicTitle } from "@/components/seo/dynamic-title";
 import { globalGraph } from "@/lib/schema";
 import { Analytics } from "@/components/analytics/analytics";
 import { EngagementTracker } from "@/components/analytics/engagement-tracker";
+import { SiteWidgets } from "@/components/conversion/site-widgets";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -102,6 +103,9 @@ export default function RootLayout({
           <div className="w-full overflow-x-hidden flex flex-col min-h-screen relative">
             {children}
           </div>
+          <Suspense fallback={null}>
+            <SiteWidgets />
+          </Suspense>
         </Providers>
       </body>
     </html>

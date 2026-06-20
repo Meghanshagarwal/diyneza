@@ -45,6 +45,8 @@ export const siteConfig = {
   ],
   email: "hello@diyneza.com",
   phone: "+1-555-012-3456",
+  // WhatsApp number in international format, digits only (no +, spaces).
+  whatsapp: "15550123456",
   foundingYear: "2024",
 } as const;
 
