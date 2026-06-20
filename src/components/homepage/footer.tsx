@@ -27,8 +27,8 @@ export function Footer() {
       links: [
         { name: "Pricing Plans", href: "/pricing" },
         { name: "Journal", href: "/blog" },
+        { name: "Compare Alternatives", href: "/alternatives" },
         { name: "FAQs", href: "/#faq" },
-        { name: "Integrations", href: "/#integrations" },
       ],
     },
     {

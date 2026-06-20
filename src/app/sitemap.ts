@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { siteConfig } from "@/lib/seo";
+import { competitors } from "@/data/competitors";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
@@ -61,7 +62,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/alternatives`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
+
+  // Competitor "alternative" comparison pages (high-intent SEO).
+  const alternativeRoutes: MetadataRoute.Sitemap = competitors.map((c) => ({
+    url: `${baseUrl}/alternatives/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
 
   // Dynamic blog posts pulled from Supabase. Fail soft so the sitemap still
   // builds with the static routes if the database is unreachable.
@@ -86,5 +101,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Ignore — static routes are still emitted.
   }
 
-  return [...staticRoutes, ...blogRoutes];
+  return [...staticRoutes, ...alternativeRoutes, ...blogRoutes];
 }
