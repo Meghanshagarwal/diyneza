@@ -14,6 +14,7 @@ import { FAQ } from "@/components/homepage/faq";
 import { CTA } from "@/components/homepage/cta";
 import { Footer } from "@/components/homepage/footer";
 import { createClient } from "@/utils/supabase/server";
+import { siteConfig } from "@/lib/seo";
 
 export const revalidate = 0;
 
@@ -49,18 +50,23 @@ export default async function Home() {
     answer: item.answer,
   }));
 
-  // Inject Organization and SoftwareApplication schemas for SEO
+  // Inject structured data for SEO (Organization, WebSite, SoftwareApplication, FAQ)
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "DIYNEZA",
-    "url": "https://diyneza.com",
-    "logo": "https://diyneza.com/images/logo.png",
-    "sameAs": [
-      "https://twitter.com/diyneza",
-      "https://linkedin.com/company/diyneza",
-      "https://github.com/diyneza"
-    ]
+    "name": siteConfig.name,
+    "url": siteConfig.url,
+    "logo": `${siteConfig.url}/images/logo.png`,
+    "description": siteConfig.description,
+    "sameAs": [...siteConfig.sameAs],
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": siteConfig.name,
+    "url": siteConfig.url,
+    "publisher": { "@type": "Organization", "name": siteConfig.name },
   };
 
   const softwareSchema = {
@@ -69,12 +75,28 @@ export default async function Home() {
     "name": "DIYNEZA Restaurant Operating System",
     "operatingSystem": "All (Cloud-based)",
     "applicationCategory": "BusinessApplication",
+    "url": siteConfig.url,
+    "description": siteConfig.description,
     "offers": {
       "@type": "Offer",
       "price": "0.00",
-      "priceCurrency": "USD"
-    }
+      "priceCurrency": "USD",
+    },
   };
+
+  // FAQPage schema generated from the live FAQs (eligible for rich results).
+  const faqSchema =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faqs.map((f) => ({
+            "@type": "Question",
+            "name": f.question,
+            "acceptedAnswer": { "@type": "Answer", "text": f.answer },
+          })),
+        }
+      : null;
 
   return (
     <>
@@ -85,8 +107,18 @@ export default async function Home() {
       />
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       {/* Page Structure */}
       <Navbar />

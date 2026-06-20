@@ -6,6 +6,7 @@ import { Footer } from "@/components/homepage/footer";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 import { type BlogPost } from "@/data/blog";
+import { siteConfig } from "@/lib/seo";
 
 interface RouteParams {
   params: Promise<{
@@ -65,9 +66,14 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
       canonical: `/blog/${post.slug}`,
     },
     openGraph: {
+      type: "article",
       title: post.title,
       description: post.excerpt,
-      images: [{ url: post.ogImage }],
+      url: `/blog/${post.slug}`,
+      publishedTime: post.publishDate,
+      authors: [post.author.name],
+      section: post.category,
+      images: [{ url: post.ogImage, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
@@ -91,13 +97,44 @@ export default async function BlogPostPage({ params }: RouteParams) {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
+    "description": post.excerpt,
     "image": post.ogImage,
     "datePublished": post.publishDate,
+    "dateModified": post.publishDate,
+    "articleSection": post.category,
+    "url": `${siteConfig.url}/blog/${post.slug}`,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/blog/${post.slug}`,
+    },
     "author": {
       "@type": "Person",
       "name": post.author.name,
+      "jobTitle": post.author.role,
     },
-    "description": post.excerpt,
+    "publisher": {
+      "@type": "Organization",
+      "name": siteConfig.name,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteConfig.url}/images/logo.png`,
+      },
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": siteConfig.url },
+      { "@type": "ListItem", "position": 2, "name": "Journal", "item": `${siteConfig.url}/blog` },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `${siteConfig.url}/blog/${post.slug}`,
+      },
+    ],
   };
 
   return (
@@ -108,6 +145,10 @@ export default async function BlogPostPage({ params }: RouteParams) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <main className="flex-1 bg-dark-bg text-white py-16 md:py-24">

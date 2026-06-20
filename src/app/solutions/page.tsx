@@ -5,10 +5,21 @@ import { CheckCircle2, Monitor, Printer, Smartphone } from "lucide-react";
 import { solutionsData } from "@/data/solutions";
 
 export const metadata: Metadata = {
-  title: "DIYNEZA | Solutions by Restaurant Profile",
+  title: "Solutions by Restaurant Profile",
   description: "Customized POS setups and hardware bundles tailored for QSR chains, cafes, bakeries, fine dining hubs, and multi-brand cloud kitchens.",
   alternates: {
     canonical: "/solutions",
+  },
+  openGraph: {
+    title: "DIYNEZA | Solutions by Restaurant Profile",
+    description: "Customized POS setups and hardware bundles for QSR chains, cafes, bakeries, fine dining, and cloud kitchens.",
+    url: "/solutions",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIYNEZA Solutions",
+    description: "Customized POS setups and hardware bundles for every restaurant profile.",
   },
 };
 

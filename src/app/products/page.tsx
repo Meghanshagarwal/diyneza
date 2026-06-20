@@ -5,10 +5,21 @@ import { CheckCircle2, ShieldCheck, Database, LayoutGrid, Smartphone, BarChart3,
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "DIYNEZA | Modules & Products Overview",
+  title: "Modules & Products Overview",
   description: "Explore the core modules of DIYNEZA: Cloud POS terminals, real-time recipe inventory management, Kitchen KDS, QR ordering, and franchise reporting.",
   alternates: {
     canonical: "/products",
+  },
+  openGraph: {
+    title: "DIYNEZA | Modules & Products Overview",
+    description: "Cloud POS, recipe inventory, Kitchen KDS, QR ordering, and franchise reporting — all in one platform.",
+    url: "/products",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIYNEZA Modules & Products",
+    description: "Cloud POS, recipe inventory, Kitchen KDS, QR ordering, and franchise reporting.",
   },
 };
 

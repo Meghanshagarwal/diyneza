@@ -1,11 +1,33 @@
+import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { PricingClient } from "./pricing-client";
 import { type PricingPlan } from "@/data/pricing";
+import { siteConfig } from "@/lib/seo";
 
 // Opt-out of static caching to make sure pricing changes are reflected immediately
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Pricing — Simple Plans for Every Restaurant",
+  description:
+    "Transparent DIYNEZA pricing. Pick a plan for your cafe, QSR, or multi-outlet chain — POS, inventory, KDS, and QR ordering included. Start a free trial.",
+  alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: "DIYNEZA Pricing — Simple Plans for Every Restaurant",
+    description:
+      "Transparent pricing for POS, inventory, KDS, and QR ordering. Start your free trial.",
+    url: "/pricing",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIYNEZA Pricing",
+    description:
+      "Transparent pricing for POS, inventory, KDS, and QR ordering.",
+  },
+};
 
 export default async function PricingPage() {
   const supabase = await createClient();
@@ -41,8 +63,47 @@ export default async function PricingPage() {
     });
   }
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${siteConfig.name} Restaurant Management Platform`,
+    description: siteConfig.description,
+    brand: { "@type": "Brand", name: siteConfig.name },
+    offers: plans.map((plan) => ({
+      "@type": "Offer",
+      name: plan.name,
+      description: plan.description,
+      price: plan.priceMonthly,
+      priceCurrency: "USD",
+      url: `${siteConfig.url}/pricing`,
+      availability: "https://schema.org/InStock",
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Pricing",
+        item: `${siteConfig.url}/pricing`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Navbar />
       <PricingClient plans={plans} />
       <Footer />
