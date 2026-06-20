@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { CheckCircle2, Monitor, Printer, Smartphone } from "lucide-react";
@@ -126,9 +127,12 @@ export default function SolutionsPage() {
                       </div>
                     </div>
                     {/* Action */}
-                    <button className="rounded border border-zinc-800 bg-zinc-900/60 p-2 text-center text-xs font-heading font-semibold text-zinc-300 hover:text-white hover:border-zinc-500 transition-all cursor-pointer">
+                    <Link
+                      href="/contact?intent=demo"
+                      className="rounded border border-zinc-800 bg-zinc-900/60 p-2 text-center text-xs font-heading font-semibold text-zinc-300 hover:text-white hover:border-zinc-500 transition-all"
+                    >
                       Request Hardware Quote
-                    </button>
+                    </Link>
                   </div>
                 </div>
               );

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
-import { CheckCircle2, ShieldCheck, Database, LayoutGrid, Smartphone, BarChart3, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2, ShieldCheck, Database, LayoutGrid, Smartphone, BarChart3, Users, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Modules & Products Overview",
@@ -228,6 +228,31 @@ export default function ProductsPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="border-t border-zinc-900 py-20 text-center">
+          <div className="mx-auto max-w-2xl px-6">
+            <h2 className="font-heading text-3xl font-bold text-white">See every module in action</h2>
+            <p className="mt-3 text-sm text-zinc-400">
+              Start your 45-day free trial or book a personalized demo — no credit card required, cancel anytime.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact?intent=trial"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-7 py-3 text-base font-heading font-semibold text-black transition-all hover:bg-primary-light hover:scale-[1.02] glow-primary"
+              >
+                <span>Start free trial</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/contact?intent=demo"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-7 py-3 text-base font-heading font-medium text-white transition-all hover:bg-zinc-800 hover:border-zinc-500"
+              >
+                <span>Book a demo</span>
+              </Link>
+            </div>
           </div>
         </section>
       </main>

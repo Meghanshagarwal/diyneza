@@ -1,35 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Play, TrendingUp, Users, ShoppingBag, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight, Play, TrendingUp, Users, ShoppingBag, Clock, CheckCircle2 } from "lucide-react";
 import { homepageContent } from "@/data/homepage-content";
 
 export function Hero() {
-  const { eyebrow, headline, subhead, primaryCTA, secondaryCTA } = homepageContent.hero;
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 20,
-      },
-    },
-  };
+  const { eyebrow, subhead, primaryCTA, secondaryCTA } = homepageContent.hero;
 
   return (
     <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-28">
@@ -38,63 +14,63 @@ export function Hero() {
       <div className="absolute top-12 left-1/4 -z-10 h-[250px] w-[250px] rounded-full bg-zinc-900/50 blur-2xl" />
 
       <div className="mx-auto max-w-7xl px-6 text-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center"
-        >
+        <div className="flex flex-col items-center">
           {/* Eyebrow */}
-          <motion.div
-            variants={itemVariants}
-            className="inline-flex items-center space-x-2 rounded-full border border-zinc-800/80 bg-zinc-900/40 px-4 py-1.5 backdrop-blur-md"
-          >
+          <div className="inline-flex items-center space-x-2 rounded-full border border-zinc-800/80 bg-zinc-900/40 px-4 py-1.5 backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             <span className="font-heading text-xs font-semibold tracking-widest text-zinc-400 uppercase">
               {eyebrow}
             </span>
-          </motion.div>
+          </div>
 
           {/* Headline */}
-          <motion.h1
-            variants={itemVariants}
-            className="mt-6 max-w-4xl font-heading text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl leading-tight"
-          >
+          <h1 className="mt-6 max-w-4xl font-heading text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl leading-tight">
             Everything your restaurant needs in{" "}
             <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
               one platform
             </span>
             .
-          </motion.h1>
+          </h1>
 
           {/* Subhead */}
-          <motion.p
-            variants={itemVariants}
-            className="mt-6 max-w-2xl text-base md:text-lg text-zinc-400 leading-relaxed font-sans"
-          >
+          <p className="mt-6 max-w-2xl text-base md:text-lg text-zinc-400 leading-relaxed font-sans">
             {subhead}
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Button variant="primary" size="lg" className="flex items-center space-x-2">
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact?intent=trial"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-7 py-3 text-base font-heading font-medium text-black transition-all hover:bg-primary-light hover:scale-[1.02] glow-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark-bg"
+            >
               <span>{primaryCTA}</span>
               <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button variant="secondary" size="lg" className="flex items-center space-x-2">
+            </Link>
+            <Link
+              href="/contact?intent=demo"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-7 py-3 text-base font-heading font-medium text-white transition-all hover:bg-zinc-800 hover:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark-bg"
+            >
               <Play className="h-4 w-4 text-primary fill-primary" />
               <span>{secondaryCTA}</span>
-            </Button>
-          </motion.div>
+            </Link>
+          </div>
+
+          {/* Trust line */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-zinc-500">
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> 45-day free trial
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> No credit card required
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> Cancel anytime
+            </span>
+          </div>
 
           {/* Interactive Live Dashboard Mockup */}
-          <motion.div
-            variants={itemVariants}
-            className="relative mt-16 md:mt-24 w-full max-w-5xl rounded-xl border border-zinc-800/80 bg-zinc-950/80 p-3 shadow-2xl backdrop-blur-sm glow-primary/5"
-            style={{ perspective: 1000 }}
+          <div
+            className="relative mt-16 md:mt-24 w-full max-w-5xl rounded-xl border border-zinc-800/80 bg-zinc-950/80 p-3 shadow-2xl backdrop-blur-sm"
           >
             {/* Window controls bar */}
             <div className="flex items-center justify-between border-b border-zinc-900 pb-3 px-3">
@@ -115,11 +91,11 @@ export function Hero() {
               <div className="hidden md:flex flex-col space-y-2 border-r border-zinc-900/80 pr-3">
                 <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-wider px-2">Manage</span>
                 <span className="rounded bg-zinc-900 px-3 py-1.5 text-xs text-white font-medium">Live Terminal</span>
-                <span className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-300">Inventory Status</span>
-                <span className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-300">Kitchen Display</span>
-                <span className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-300">Tables Seating</span>
-                <span className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-300">Loyalty & CRM</span>
-                <span className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-300">System Logs</span>
+                <span className="px-3 py-1.5 text-xs text-zinc-500">Inventory Status</span>
+                <span className="px-3 py-1.5 text-xs text-zinc-500">Kitchen Display</span>
+                <span className="px-3 py-1.5 text-xs text-zinc-500">Tables Seating</span>
+                <span className="px-3 py-1.5 text-xs text-zinc-500">Loyalty & CRM</span>
+                <span className="px-3 py-1.5 text-xs text-zinc-500">System Logs</span>
               </div>
 
               {/* Main Content Area */}
@@ -169,7 +145,7 @@ export function Hero() {
                     <span className="text-xs font-heading font-semibold text-zinc-300">Hourly Traffic & Revenue</span>
                     <span className="rounded bg-primary/10 border border-primary/20 px-2 py-0.5 text-[10px] text-primary">Live Sync</span>
                   </div>
-                  {/* SVG Chart */}
+                  {/* Bar Chart */}
                   <div className="mt-6 h-36 flex items-end justify-between px-2 relative">
                     <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 border-y border-zinc-900 py-2">
                       <div className="border-b border-zinc-900 w-full" />
@@ -177,11 +153,9 @@ export function Hero() {
                     </div>
                     {[40, 65, 30, 85, 55, 95, 75, 110, 80, 120, 90, 130].map((val, idx) => (
                       <div key={idx} className="flex flex-col items-center space-y-1.5 z-10 flex-1">
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ height: `${val}px` }}
-                          transition={{ duration: 1, delay: 0.5 + idx * 0.05 }}
+                        <div
                           className="w-[14px] sm:w-[22px] rounded-t bg-gradient-to-t from-primary/50 to-primary"
+                          style={{ height: `${val}px` }}
                         />
                         <span className={`text-[8px] text-zinc-600 font-medium ${idx % 2 === 0 ? "block" : "hidden sm:block"}`}>
                           {(10 + idx).toString()}:00
@@ -192,8 +166,8 @@ export function Hero() {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

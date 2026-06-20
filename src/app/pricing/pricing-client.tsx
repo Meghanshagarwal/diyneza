@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Check, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { featureComparison, type PricingPlan } from "@/data/pricing";
 
 interface PricingClientProps {
@@ -117,13 +117,16 @@ export function PricingClient({ plans }: PricingClientProps) {
                 </div>
 
                 {/* CTA button */}
-                <Button
-                  variant={plan.popular ? "primary" : "secondary"}
-                  size="md"
-                  className="mt-8 w-full"
+                <Link
+                  href={isEnterprise ? "/contact?intent=demo" : "/contact?intent=trial"}
+                  className={`mt-8 w-full inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-heading font-medium transition-all ${
+                    plan.popular
+                      ? "bg-primary text-black hover:bg-primary-light glow-primary"
+                      : "border border-zinc-700 bg-zinc-900/60 text-white hover:bg-zinc-800 hover:border-zinc-500"
+                  }`}
                 >
                   {plan.ctaText}
-                </Button>
+                </Link>
               </div>
             );
           })}

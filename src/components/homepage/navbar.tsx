@@ -3,8 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Flame, ArrowRight, ShieldCheck, Cpu, Database, QrCode } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X, ChevronDown, ArrowRight, ShieldCheck, Cpu, Database, QrCode } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 interface NavItem {
   name: string;
@@ -63,12 +63,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-zinc-800/50 bg-black/60 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 focus:outline-none">
-          <Flame className="h-6 w-6 text-primary fill-primary" />
-          <span className="font-heading text-lg font-bold tracking-tight text-white">
-            DIYNEZA<span className="text-primary">.</span>
-          </span>
-        </Link>
+        <Logo />
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -147,10 +142,13 @@ export function Navbar() {
           <Link href="/admin" className="font-heading text-sm font-medium text-zinc-400 hover:text-white transition-colors">
             Login
           </Link>
-          <Button variant="primary" size="sm" className="flex items-center space-x-1" onClick={() => window.location.href='/#cta'}>
+          <Link
+            href="/contact?intent=demo"
+            className="inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2 text-sm font-heading font-medium text-black transition-all hover:bg-primary-light hover:scale-[1.02] glow-primary"
+          >
             <span>Book a Demo</span>
             <ArrowRight className="h-4 w-4" />
-          </Button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -220,6 +218,13 @@ export function Navbar() {
               >
                 FAQs
               </Link>
+              <Link
+                href="/contact"
+                className="font-heading text-base font-medium text-zinc-300 hover:text-white"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
               <hr className="border-zinc-800" />
               <div className="flex flex-col gap-4">
                 <Link
@@ -229,16 +234,13 @@ export function Navbar() {
                 >
                   Login
                 </Link>
-                <Button
-                  variant="primary"
-                  size="md"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    window.location.href='/#cta';
-                  }}
+                <Link
+                  href="/contact?intent=demo"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-base font-heading font-medium text-black transition-all hover:bg-primary-light"
                 >
                   Book a Demo
-                </Button>
+                </Link>
               </div>
             </div>
           </motion.div>

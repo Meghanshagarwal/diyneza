@@ -96,7 +96,7 @@ export function CTA() {
           </form>
 
           <p className="mt-4 text-xs text-zinc-500 font-medium">
-            No credit card required. Start with a 14-day free trial.
+            45-day free trial · No credit card required · Cancel anytime.
           </p>
         </div>
       </div>
