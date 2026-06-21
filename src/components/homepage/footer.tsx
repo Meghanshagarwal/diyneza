@@ -93,8 +93,35 @@ export function Footer() {
         ))}
       </div>
 
+      {/* Made in India + Attribution */}
+      <div className="mx-auto max-w-7xl px-6 mt-12 flex flex-col items-center gap-4 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.06] bg-white/[0.02] group hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-300">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="rounded-[2px] flex-shrink-0 opacity-70 group-hover:opacity-100 transition-opacity duration-300" aria-label="India flag">
+            <rect width="20" height="4.67" y="0" fill="#FF9933" />
+            <rect width="20" height="4.67" y="4.67" fill="#FFFFFF" />
+            <rect width="20" height="4.67" y="9.33" fill="#138808" />
+            <circle cx="10" cy="7" r="1.8" stroke="#000080" strokeWidth="0.5" fill="none" />
+            <circle cx="10" cy="7" r="0.3" fill="#000080" />
+          </svg>
+          <span className="font-heading text-[11px] tracking-[0.18em] uppercase text-gray-600 group-hover:text-gray-400 transition-colors duration-300 select-none">Made in India</span>
+          <span className="text-white/20 text-[10px] group-hover:text-white/30 transition-colors duration-300">•</span>
+          <span className="font-heading text-[11px] tracking-[0.18em] uppercase text-gray-600 group-hover:text-gray-400 transition-colors duration-300 select-none">For Everywhere</span>
+        </div>
+        <p className="text-[11px] text-zinc-500">
+          Made with <span className="text-red-500">♥</span> by{" "}
+          <a
+            href="https://meghroop.tech/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-zinc-400 hover:text-white underline underline-offset-2 transition-colors"
+          >
+            MeghRoop
+          </a>
+        </p>
+      </div>
+
       {/* Copyright Bar */}
-      <div className="mx-auto max-w-7xl px-6 mt-12 pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 gap-4">
+      <div className="mx-auto max-w-7xl px-6 mt-6 pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 gap-4">
         <span>© {new Date().getFullYear()} DIYNEZA Technologies Inc. All rights reserved.</span>
         <div className="flex space-x-6">
           <Link href="/terms" className="hover:text-white transition-colors">
