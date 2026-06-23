@@ -134,14 +134,15 @@ export function FeaturesEcosystem() {
                 key={mod.id}
                 onMouseEnter={() => setHoveredModule(mod.id)}
                 onMouseLeave={() => setHoveredModule(null)}
-                className={`absolute z-20 flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 cursor-pointer ${
+                className={`absolute z-20 flex h-12 w-12 items-center justify-center rounded-full border cursor-pointer ${
                   isHovered
-                    ? "border-primary text-primary bg-zinc-950 scale-110 shadow-lg"
+                    ? "border-primary text-primary bg-zinc-950 shadow-lg"
                     : "border-zinc-800 text-zinc-400 bg-zinc-900 hover:border-zinc-600 hover:text-white"
                 }`}
-                style={{
-                  transform: `translate(${x}px, ${y}px)`,
-                }}
+                // Position via Framer Motion's x/y so the translate isn't clobbered
+                // by the hover scale (which previously made the icon jump to centre).
+                style={{ x, y }}
+                animate={{ scale: isHovered ? 1.15 : 1 }}
                 whileHover={{ scale: 1.15 }}
                 transition={{ type: "spring", stiffness: 300, damping: 15 }}
               >
