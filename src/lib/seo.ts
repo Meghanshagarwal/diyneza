@@ -40,11 +40,10 @@ export const siteConfig = {
     "table reservation software",
     "online ordering system for restaurants",
   ],
-  sameAs: [
-    "https://twitter.com/diyneza",
-    "https://linkedin.com/company/diyneza",
-    "https://github.com/diyneza",
-  ],
+  // Company social profiles. Keep this list to ONLY real, live profiles —
+  // linking schema sameAs or footer icons to 404 pages is a broken link and a
+  // weak trust signal. Add handles back here once the profiles actually exist.
+  sameAs: [] as string[],
   email: "hello@diyneza.com",
   phone: "+918949508264",
   // WhatsApp number in international format, digits only (no +, spaces).

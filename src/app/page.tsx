@@ -13,13 +13,17 @@ import { Integrations } from "@/components/homepage/integrations";
 import { FAQ } from "@/components/homepage/faq";
 import { CTA } from "@/components/homepage/cta";
 import { Footer } from "@/components/homepage/footer";
-import { createClient } from "@/utils/supabase/server";
+import { createPublicClient } from "@/utils/supabase/public";
 import { siteConfig } from "@/lib/seo";
 
-export const revalidate = 0;
+// ISR: the homepage is public content, so cache the whole render (incl. the
+// Supabase fetch) and revalidate hourly instead of re-fetching on every request
+// (which kept TTFB ~1.2s). Uses the cookie-less client so the route can be
+// statically generated. Admin edits call /api/revalidate -> revalidatePath("/").
+export const revalidate = 3600;
 
 export default async function Home() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   // Fetch all content in parallel
   const [testimonialsRes, integrationsRes, faqsRes] = await Promise.all([

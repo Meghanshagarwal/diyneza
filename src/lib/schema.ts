@@ -39,7 +39,8 @@ export function organizationSchema() {
     foundingDate: siteConfig.foundingYear,
     founder: { "@id": founder.id },
     email: siteConfig.email,
-    sameAs: [...siteConfig.sameAs],
+    // Only include sameAs when there are real profiles (avoid linking to 404s).
+    ...(siteConfig.sameAs.length ? { sameAs: [...siteConfig.sameAs] } : {}),
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",

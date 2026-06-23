@@ -129,6 +129,7 @@ export function TestimonialsClient({ initialTestimonials }: TestimonialsClientPr
         setIsCreateOpen(false);
       }
 
+      await fetch("/api/revalidate", { method: "POST" }).catch(() => {});
       router.refresh();
     } catch (err) {
       console.error("Error saving testimonial:", err);
@@ -148,6 +149,7 @@ export function TestimonialsClient({ initialTestimonials }: TestimonialsClientPr
       if (error) throw error;
 
       setTestimonials((prev) => prev.filter((t) => t.id !== id));
+      await fetch("/api/revalidate", { method: "POST" }).catch(() => {});
       router.refresh();
     } catch (err) {
       console.error("Error deleting testimonial:", err);

@@ -115,6 +115,7 @@ export function FAQsClient({ initialFaqs }: FAQsClientProps) {
         setIsCreateOpen(false);
       }
 
+      await fetch("/api/revalidate", { method: "POST" }).catch(() => {});
       router.refresh();
     } catch (err) {
       console.error("Error saving FAQ:", err);
@@ -134,6 +135,7 @@ export function FAQsClient({ initialFaqs }: FAQsClientProps) {
       if (error) throw error;
 
       setFaqs((prev) => prev.filter((f) => f.id !== id));
+      await fetch("/api/revalidate", { method: "POST" }).catch(() => {});
       router.refresh();
     } catch (err) {
       console.error("Error deleting FAQ:", err);
@@ -162,6 +164,7 @@ export function FAQsClient({ initialFaqs }: FAQsClientProps) {
         supabase.from("faqs").update({ display_order: currentItem.display_order }).eq("id", currentItem.id),
         supabase.from("faqs").update({ display_order: nextItem.display_order }).eq("id", nextItem.id)
       ]);
+      await fetch("/api/revalidate", { method: "POST" }).catch(() => {});
       router.refresh();
     } catch (err) {
       console.error("Error swapping FAQ order:", err);
