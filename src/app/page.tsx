@@ -62,11 +62,9 @@ export default async function Home() {
     "description": siteConfig.description,
     "publisher": { "@id": `${siteConfig.url}/#organization` },
     "author": { "@id": `${siteConfig.url}/#meghansh-agarwal` },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "127",
-    },
+    // NOTE: aggregateRating intentionally omitted. Fabricated/unverifiable rating
+    // data violates Google's review-snippet policy and risks a manual action.
+    // Re-add a real AggregateRating only once genuine, verifiable reviews exist.
     "offers": {
       "@type": "Offer",
       "price": "0.00",
@@ -75,28 +73,10 @@ export default async function Home() {
     },
   };
 
-  // FAQPage schema generated from the live FAQs (eligible for rich results).
-  // Review + AggregateRating schema from live testimonials.
-  const reviewSchema =
-    testimonials.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "Product",
-          "name": "DIYNEZA Restaurant Management Platform",
-          "brand": { "@type": "Brand", "name": "DIYNEZA" },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": String(Math.max(testimonials.length, 127)),
-          },
-          "review": testimonials.slice(0, 5).map((t) => ({
-            "@type": "Review",
-            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-            "author": { "@type": "Person", "name": t.name },
-            "reviewBody": t.quote,
-          })),
-        }
-      : null;
+  // Review/AggregateRating schema intentionally NOT generated. The current
+  // testimonials are illustrative, not verified customer reviews — emitting
+  // Review structured data for them would violate Google's review-snippet
+  // policy. Reintroduce this only when backed by genuine, verifiable reviews.
 
   const faqSchema =
     faqs.length > 0
@@ -118,12 +98,6 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
-      {reviewSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
-        />
-      )}
       {faqSchema && (
         <script
           type="application/ld+json"
