@@ -28,13 +28,16 @@ export function organizationSchema() {
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
+    // Organization logo must be square-ish with accurate dimensions for Google
+    // knowledge-panel / rich-result eligibility. icon-512.png is a true 512×512
+    // square (logo.png is the 858×271 wordmark, which mislabeled its size here).
     logo: {
       "@type": "ImageObject",
-      url: `${siteConfig.url}/images/logo.png`,
+      url: `${siteConfig.url}/images/icon-512.png`,
       width: 512,
       height: 512,
     },
-    image: `${siteConfig.url}/images/logo.png`,
+    image: `${siteConfig.url}/images/icon-512.png`,
     description: siteConfig.description,
     foundingDate: siteConfig.foundingYear,
     founder: { "@id": founder.id },

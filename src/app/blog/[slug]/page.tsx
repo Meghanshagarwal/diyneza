@@ -118,6 +118,8 @@ export default async function BlogPostPage({ params }: RouteParams) {
       "logo": {
         "@type": "ImageObject",
         "url": `${siteConfig.url}/images/logo.png`,
+        "width": 858,
+        "height": 271,
       },
     },
   };

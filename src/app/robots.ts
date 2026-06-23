@@ -35,8 +35,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: ALLOWED_BOTS.map((userAgent) => ({
       userAgent,
       allow: "/",
-      // Keep private/admin and internal API surfaces out of indexes for every bot.
-      disallow: ["/admin", "/admin/"],
+      // Keep private/admin, internal API, and the internal brand kit out of
+      // indexes for every bot (the brand kit stays publicly reachable by URL).
+      disallow: ["/admin", "/admin/", "/brand-kit.html"],
     })),
     sitemap: `${siteConfig.url}/sitemap.xml`,
     host: siteConfig.url,
