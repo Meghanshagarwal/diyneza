@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { siteConfig } from "@/lib/seo";
+import { cities } from "@/data/cities";
 
 export function Footer() {
   const footerLinks = [
@@ -91,6 +92,26 @@ export function Footer() {
             </ul>
           </div>
         ))}
+      </div>
+
+      {/* Locations We Serve — internal links to city POS landing pages so they
+          inherit crawl/link equity from every page (incl. the homepage). */}
+      <div className="mx-auto max-w-7xl px-6 mt-12 pt-8 border-t border-zinc-900">
+        <h4 className="font-heading text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
+          Locations We Serve
+        </h4>
+        <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-zinc-400">
+          {cities.map((c) => (
+            <li key={c.slug}>
+              <Link
+                href={`/restaurant-pos/${c.slug}`}
+                className="hover:text-white transition-colors"
+              >
+                Restaurant POS in {c.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Made in India + Attribution */}

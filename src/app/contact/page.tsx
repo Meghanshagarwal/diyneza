@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "hello@diyneza.com", href: "mailto:hello@diyneza.com" },
-  { icon: Phone, label: "Sales", value: "+1 (555) 012-3456", href: "tel:+15550123456" },
+  { icon: Phone, label: "Sales", value: "+91 89495 08264", href: "tel:+918949508264" },
   { icon: Clock, label: "Hours", value: "Mon–Sat, 9am – 7pm", href: undefined },
   { icon: MapPin, label: "Support", value: "24/7 in-app live chat", href: undefined },
 ];

@@ -13,16 +13,18 @@ export interface Competitor {
 }
 
 // Feature-by-feature comparison grid. DIYNEZA values are factual; the competitor
-// column is intentionally neutral ("Plan-dependent") to avoid unverified claims.
-export const comparisonRows: { feature: string; diyneza: boolean }[] = [
-  { feature: "All-in-one POS, inventory, KDS & ordering", diyneza: true },
-  { feature: "0% commission on direct QR / online orders", diyneza: true },
-  { feature: "Offline-first billing", diyneza: true },
-  { feature: "Real-time recipe costing & auto purchase orders", diyneza: true },
-  { feature: "Multi-outlet / franchise management", diyneza: true },
-  { feature: "Branded online ordering storefront", diyneza: true },
-  { feature: "Role-based staff access (RBAC)", diyneza: true },
-  { feature: "45-day free trial, no credit card", diyneza: true },
+// column uses honest, neutral generalizations about the category (and openly
+// acknowledges capabilities most rivals DO offer) rather than a uniform negative
+// value — keeping the comparison objective and Google "helpful content" compliant.
+export const comparisonRows: { feature: string; diyneza: boolean; competitor: string }[] = [
+  { feature: "All-in-one POS, inventory, KDS & ordering", diyneza: true, competitor: "Often modular / add-ons" },
+  { feature: "0% commission on direct QR / online orders", diyneza: true, competitor: "Varies by plan" },
+  { feature: "Offline-first billing", diyneza: true, competitor: "Varies" },
+  { feature: "Real-time recipe costing & auto purchase orders", diyneza: true, competitor: "Plan-dependent" },
+  { feature: "Multi-outlet / franchise management", diyneza: true, competitor: "Usually available" },
+  { feature: "Branded online ordering storefront", diyneza: true, competitor: "Often an add-on" },
+  { feature: "Role-based staff access (RBAC)", diyneza: true, competitor: "Usually available" },
+  { feature: "45-day free trial, no credit card", diyneza: true, competitor: "Typically 7–14 days" },
 ];
 
 // DIYNEZA's headline capabilities (shown as a checklist on every page).

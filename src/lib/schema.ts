@@ -45,7 +45,8 @@ export function organizationSchema() {
       contactType: "sales",
       email: siteConfig.email,
       telephone: siteConfig.phone,
-      availableLanguage: ["English"],
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi"],
     },
   };
 }
@@ -98,6 +99,8 @@ export function serviceSchema(opts: {
   description: string;
   path: string;
   serviceType?: string;
+  /** City/region the service targets — drives local-intent ranking. */
+  areaServed?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -107,7 +110,9 @@ export function serviceSchema(opts: {
     serviceType: opts.serviceType || opts.name,
     url: absoluteUrl(opts.path),
     provider: { "@id": ORG_ID },
-    areaServed: "Worldwide",
+    areaServed: opts.areaServed
+      ? { "@type": "City", name: opts.areaServed, containedInPlace: { "@type": "Country", name: "India" } }
+      : "Worldwide",
   };
 }
 

@@ -6,9 +6,11 @@ export const siteConfig = {
   legalName: "DIYNEZA",
   // Production domain. Update here if the live domain changes.
   url: "https://diyneza.com",
-  title: "DIYNEZA — Restaurant Management Software & POS | 45-Day Free Trial",
+  // Kept ≤60 chars so the title isn't truncated in Google SERPs.
+  title: "DIYNEZA — Restaurant Management Software & POS",
+  // Kept ≤160 chars to avoid meta-description truncation in SERPs.
   description:
-    "DIYNEZA is the all-in-one restaurant management software: POS & billing, live inventory, KDS, QR ordering, and multi-outlet operations in one platform. Start a 45-day free trial — no credit card, cancel anytime.",
+    "Sleek all-in-one restaurant POS, live inventory, KDS, and commission-free QR ordering. Start your risk-free 45-day free trial today.",
   tagline: "The all-in-one operating system for modern restaurants.",
   locale: "en_US",
   twitterHandle: "@diyneza",
@@ -44,9 +46,9 @@ export const siteConfig = {
     "https://github.com/diyneza",
   ],
   email: "hello@diyneza.com",
-  phone: "+1-555-012-3456",
+  phone: "+918949508264",
   // WhatsApp number in international format, digits only (no +, spaces).
-  whatsapp: "15550123456",
+  whatsapp: "918949508264",
   foundingYear: "2024",
 } as const;
 

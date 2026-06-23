@@ -67,6 +67,7 @@ export default async function CityPage({ params }: RouteParams) {
           description: `All-in-one restaurant POS & management software for ${c.name}.`,
           path: `/restaurant-pos/${c.slug}`,
           serviceType: "Restaurant POS software",
+          areaServed: c.name,
         })}
       />
       <JsonLd

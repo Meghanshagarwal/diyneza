@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
   if (!c) return { title: "Alternative Not Found" };
 
   const title = `${c.name} Alternative — DIYNEZA Restaurant Management`;
-  const description = `Looking for a ${c.name} alternative? DIYNEZA is an all-in-one restaurant platform — POS, billing, inventory, KDS & commission-free QR ordering. 45-day free trial, no credit card.`;
+  // Kept concise so the snippet isn't truncated in SERPs (~150 chars).
+  const description = `Looking for a ${c.name} alternative? DIYNEZA gives restaurants POS, billing, inventory, KDS & commission-free QR ordering. 45-day free trial.`;
   return {
     title,
     description,
@@ -125,7 +126,7 @@ export default async function AlternativePage({ params }: RouteParams) {
                       <td className="px-4 py-3 text-center">
                         <CheckCircle2 className="mx-auto h-5 w-5 text-primary" />
                       </td>
-                      <td className="px-4 py-3 text-center text-xs text-zinc-500">Plan-dependent</td>
+                      <td className="px-4 py-3 text-center text-xs text-zinc-500">{row.competitor}</td>
                     </tr>
                   ))}
                 </tbody>
