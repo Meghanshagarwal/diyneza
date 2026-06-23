@@ -182,6 +182,10 @@ function drawLogo(ctx,cx,cy,maxW,maxH,img){const im=img||logoClean;let w=maxW,h=
 function drawChipLogo(ctx,cx,cy,maxW,maxH){let w=maxW,h=w/LR;if(h>maxH){h=maxH;w=h*LR;}const padX=h*0.5,padY=h*0.45;ctx.save();ctx.fillStyle=C.bg;roundRect(ctx,cx-w/2-padX,cy-h/2-padY,w+padX*2,h+padY*2,h*0.28);ctx.fill();ctx.restore();ctx.drawImage(logoClean,cx-w/2,cy-h/2,w,h);}
 function drawPill(ctx,text,x,y,size){ctx.save();ctx.font='600 '+size+'px "Space Grotesk",sans-serif';const tw=ctx.measureText(text).width;const padX=size*0.9,h=size*2.0;const w=tw+padX*2;ctx.fillStyle='rgba(255,255,255,0.06)';ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1;roundRect(ctx,x-w,y-h,w,h,h/2);ctx.fill();ctx.stroke();ctx.fillStyle=C.muted;ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(text,x-w+padX,y-h/2+1);ctx.restore();}
 function newCanvas(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c;}
+// High-quality export: render small assets (profile pics, logos) at a higher
+// resolution so downloads aren't pixelated. Platforms downscale crisply. Scales
+// up to ~1440px on the largest side; already-large assets stay native (factor 1).
+function ssFactor(w,h){return Math.max(1,Math.min(4,Math.round(1440/Math.max(w,h))));}
 function dl(canvas,name){canvas.toBlob(b=>{const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},2000);});}
 function dlHTML(html,name){const blob=new Blob([html],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},2000);}
 
@@ -211,8 +215,8 @@ function makeCard(name,dims,cv,filename,circle){const card=document.createElemen
 function buildSocial(){const root=document.getElementById('social');PLATFORMS.forEach(p=>{const sec=document.createElement('div');sec.id=p.id;sec.style.marginBottom='64px';
 sec.innerHTML='<div class="platform-header"><div class="platform-icon">'+p.icon+'</div><div><div class="platform-name">'+p.name+'</div><div class="platform-desc">'+p.desc+'</div></div></div>';
 const cards=document.createElement('div');cards.className='cards';
-p.assets.forEach(a=>{const cv=newCanvas(a.w,a.h);renderAsset(cv,{bg:'dark',grid:a.grid,orb:a.orb,scale:a.scale,handle:a.handle});cv.style.width=a.w>520?'100%':Math.min(a.w,150)+'px';
-cards.appendChild(makeCard(a.n,a.w+' × '+a.h+' px',cv,'diyneza-'+p.id+'-'+a.n.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.png',a.circle));});
+p.assets.forEach(a=>{const ss=ssFactor(a.w,a.h);const cv=newCanvas(a.w*ss,a.h*ss);renderAsset(cv,{bg:'dark',grid:a.grid,orb:a.orb,scale:a.scale,handle:a.handle});cv.style.width=a.w>520?'100%':Math.min(a.w,150)+'px';
+cards.appendChild(makeCard(a.n,(a.w*ss)+' × '+(a.h*ss)+' px',cv,'diyneza-'+p.id+'-'+a.n.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.png',a.circle));});
 sec.appendChild(cards);if(p.note){const note=document.createElement('div');note.className='safe-note';note.innerHTML='<b>Safe zone:</b> '+p.note;sec.appendChild(note);}root.appendChild(sec);});}
 
 // app icon: rounded dark tile with the icon-only mark (tight crop of same logo)
@@ -231,7 +235,7 @@ const note=document.createElement('div');note.className='safe-note';note.innerHT
 
 function buildExtra(rootId,icon,name,desc,assets,note){const root=document.getElementById(rootId);root.innerHTML='<div class="platform-header"><div class="platform-icon">'+icon+'</div><div><div class="platform-name">'+name+'</div><div class="platform-desc">'+desc+'</div></div></div>';
 const cards=document.createElement('div');cards.className='cards';
-assets.forEach(a=>{const cv=newCanvas(a.w,a.h);renderAsset(cv,a.spec);cv.style.width=a.w>520?'100%':Math.min(a.w,150)+'px';const card=makeCard(a.n,a.w+' × '+a.h+' px',cv,'diyneza-'+a.n.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.png',false);if(a.spec.bg==='transparent'){card.querySelector('.asset-preview').style.background='repeating-conic-gradient(#1a1a1a 0% 25%,#222 0% 50%) 50% / 20px 20px';}cards.appendChild(card);});
+assets.forEach(a=>{const ss=ssFactor(a.w,a.h);const cv=newCanvas(a.w*ss,a.h*ss);renderAsset(cv,a.spec);cv.style.width=a.w>520?'100%':Math.min(a.w,150)+'px';const card=makeCard(a.n,(a.w*ss)+' × '+(a.h*ss)+' px',cv,'diyneza-'+a.n.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.png',false);if(a.spec.bg==='transparent'){card.querySelector('.asset-preview').style.background='repeating-conic-gradient(#1a1a1a 0% 25%,#222 0% 50%) 50% / 20px 20px';}cards.appendChild(card);});
 root.appendChild(cards);if(note){const n=document.createElement('div');n.className='safe-note';n.innerHTML=note;root.appendChild(n);}}
 function buildWallpaper(){buildExtra('wallpaper','▦','Desktop Wallpaper','2560×1440 (2K) · 1920×1080 (Full HD)',[{n:'2K QHD',w:2560,h:1440,spec:{bg:'dark',grid:true,orb:true,scale:0.26}},{n:'Full HD',w:1920,h:1080,spec:{bg:'dark',grid:true,orb:true,scale:0.3}}]);}
 function buildExports(){buildExtra('exports','◳','Logo Exports','Primary · light · transparent',[{n:'Primary (dark)',w:1200,h:600,spec:{bg:'dark',scale:0.66}},{n:'On Light',w:1200,h:600,spec:{bg:'light',scale:0.66}},{n:'Transparent',w:1200,h:600,spec:{bg:'transparent',scale:0.66}}],'<b>Note:</b> the transparent export keeps the plate interior dark, so it sits best on dark surfaces. On light surfaces use the "On Light" version (logo on a dark chip).');}
