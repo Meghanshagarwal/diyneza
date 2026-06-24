@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -14,11 +15,12 @@ interface LogoProps {
 export function Logo({ className, asLink = true }: LogoProps) {
   const inner = (
     <span className={cn("flex items-center gap-2", className)}>
-      <img
+      <Image
         src="/images/logo-mark.png"
         alt="DIYNEZA logo"
         width={32}
         height={32}
+        priority
         className="h-8 w-8 object-contain"
       />
       <span className="font-heading text-lg font-bold tracking-tight text-white">
