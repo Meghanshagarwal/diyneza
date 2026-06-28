@@ -26,7 +26,7 @@ export function Hero() {
 
           {/* Headline */}
           <h1 className="mt-6 max-w-4xl font-heading text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl leading-tight">
-            Everything your restaurant needs in{" "}
+            Restaurant POS, billing &amp; inventory in{" "}
             <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
               one platform
             </span>

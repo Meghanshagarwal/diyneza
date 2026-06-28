@@ -73,14 +73,29 @@ export function Analytics() {
     };
   }, []);
 
+  // When the visitor accepts cookies, upgrade Google Consent Mode so GA4 starts
+  // collecting. The GA tag itself loads up-front (Consent Mode v2) so it stays
+  // detectable by crawlers/audits while respecting consent for actual storage.
+  useEffect(() => {
+    if (consent && typeof window !== "undefined") {
+      window.gtag?.("consent", "update", {
+        analytics_storage: "granted",
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+      });
+    }
+  }, [consent]);
+
   return (
     <>
-      {/* Google Analytics 4 */}
-      {consent && ids.ga4 && (
+      {/* Google Analytics 4 — loaded with Consent Mode v2 (default denied until
+          the visitor accepts; see the consent-update effect above). */}
+      {ids.ga4 && (
         <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${ids.ga4}`} strategy="afterInteractive" />
           <Script id="ga4-init" strategy="afterInteractive">
-            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('js',new Date());gtag('config','${ids.ga4}',{send_page_view:true});`}
+            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});gtag('js',new Date());gtag('config','${ids.ga4}',{send_page_view:true});`}
           </Script>
         </>
       )}

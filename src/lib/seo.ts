@@ -6,8 +6,8 @@ export const siteConfig = {
   legalName: "DIYNEZA",
   // Production domain. Update here if the live domain changes.
   url: "https://diyneza.com",
-  // Kept ≤60 chars so the title isn't truncated in Google SERPs.
-  title: "DIYNEZA — Restaurant Management Software & POS",
+  // Kept within the 50–60 char SERP sweet spot (was 46, slightly too short).
+  title: "DIYNEZA — Restaurant Management Software, POS & Inventory",
   // Kept ≤160 chars to avoid meta-description truncation in SERPs.
   description:
     "Sleek all-in-one restaurant POS, live inventory, KDS, and commission-free QR ordering. Start your risk-free 45-day free trial today.",

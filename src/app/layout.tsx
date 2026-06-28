@@ -39,6 +39,11 @@ export const metadata: Metadata = {
   category: "technology",
   alternates: {
     canonical: "/",
+    // Declare language targeting so search engines know the locale of this page.
+    languages: {
+      "en-US": "/",
+      "x-default": "/",
+    },
   },
   formatDetection: {
     telephone: false,

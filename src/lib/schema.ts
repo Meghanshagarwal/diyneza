@@ -120,6 +120,33 @@ export function serviceSchema(opts: {
   };
 }
 
+/**
+ * LocalBusiness entity for city landing pages. DIYNEZA serves restaurants
+ * remotely rather than from a storefront, so this models a service-area
+ * business (areaServed) instead of a fixed street address.
+ */
+export function localBusinessSchema(opts: { city: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${absoluteUrl(opts.path)}#localbusiness`,
+    name: `${siteConfig.name} — Restaurant POS in ${opts.city}`,
+    description: `Restaurant POS & management software for restaurants in ${opts.city} — billing, inventory, KDS and commission-free QR ordering.`,
+    url: absoluteUrl(opts.path),
+    image: `${siteConfig.url}/images/icon-512.png`,
+    logo: `${siteConfig.url}/images/icon-512.png`,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    priceRange: "$$",
+    parentOrganization: { "@id": ORG_ID },
+    areaServed: {
+      "@type": "City",
+      name: opts.city,
+      containedInPlace: { "@type": "Country", name: "India" },
+    },
+  };
+}
+
 /** WebPage entity referencing the global org/website and primary image. */
 export function webPageSchema(opts: { name: string; description: string; path: string }) {
   return {

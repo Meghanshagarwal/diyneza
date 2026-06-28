@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { JsonLd } from "@/components/seo/json-ld";
-import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
+import { breadcrumbSchema, serviceSchema, localBusinessSchema } from "@/lib/schema";
 import { cities, getCity } from "@/data/cities";
 import { diynezaHighlights } from "@/data/competitors";
 import { CheckCircle2, ArrowRight } from "lucide-react";
@@ -70,6 +70,7 @@ export default async function CityPage({ params }: RouteParams) {
           areaServed: c.name,
         })}
       />
+      <JsonLd data={localBusinessSchema({ city: c.name, path: `/restaurant-pos/${c.slug}` })} />
       <JsonLd
         data={breadcrumbSchema([
           { name: "Home", path: "/" },

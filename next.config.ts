@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Blog/OG images are admin-entered remote URLs (any https host), so allow
+  // next/image to optimize them regardless of source domain.
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
+  },
   async redirects() {
     return [
       // Canonicalize www → non-www (matches the canonical tag https://diyneza.com)

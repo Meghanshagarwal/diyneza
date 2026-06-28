@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
@@ -199,10 +200,19 @@ export default async function BlogPostPage({ params }: RouteParams) {
             </span>
           </div>
 
-          {/* Article Banner Image */}
-          <div className="mt-8 rounded-2xl overflow-hidden h-[340px] bg-zinc-900 border border-zinc-900 shadow-lg">
-            <img src={post.ogImage} alt={post.title} className="h-full w-full object-cover" />
-          </div>
+          {/* Article Banner Image — LCP element, so optimized + eager via next/image */}
+          {post.ogImage && (
+            <div className="relative mt-8 rounded-2xl overflow-hidden h-[340px] bg-zinc-900 border border-zinc-900 shadow-lg">
+              <Image
+                src={post.ogImage}
+                alt={post.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+              />
+            </div>
+          )}
 
           {/* Post Content */}
           <div className="mt-12 text-sm text-zinc-300 leading-relaxed font-sans space-y-6">
