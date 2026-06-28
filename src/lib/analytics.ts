@@ -10,7 +10,9 @@
  *   NEXT_PUBLIC_CLARITY_ID     e.g. abcdefghij
  */
 
-export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
+// GA4 Measurement IDs are public, so a hardcoded fallback is safe — this keeps
+// analytics working even if the env var / admin setting isn't configured.
+export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID || "G-G9KZWPPT7V";
 export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 export const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 
