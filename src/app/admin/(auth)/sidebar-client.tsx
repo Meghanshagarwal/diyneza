@@ -78,7 +78,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="space-y-8">
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-8 -mr-2 pr-2">
           {/* Logo */}
           <div className="hidden md:flex items-center space-x-2.5">
             <img src="/images/logo-mark.png" alt="DIYNEZA" width={24} height={24} className="h-6 w-6 object-contain" />
@@ -126,7 +126,7 @@ export function AdminSidebar({ userEmail }: SidebarClientProps) {
         </div>
 
         {/* Footer Actions */}
-        <div className="space-y-2 border-t border-zinc-900 pt-6">
+        <div className="shrink-0 space-y-2 border-t border-zinc-900 pt-6 mt-6">
           <Link
             href="/"
             className="flex items-center space-x-3 rounded-lg px-4 py-2.5 text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-900/50 transition-all"
