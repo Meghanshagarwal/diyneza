@@ -4,6 +4,18 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { track, trackEmailClick, trackPhoneClick } from "@/lib/analytics";
 
+/** A click counts as a CTA when the link points at the contact/conversion page. */
+function isInternalCta(href: string): boolean {
+  try {
+    const u = href.startsWith("/")
+      ? new URL(href, window.location.origin)
+      : new URL(href);
+    return u.host === window.location.host && u.pathname.includes("/contact");
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Site-wide passive engagement tracking — fires to GA4 + Pixel + Clarity:
  *  - scroll depth 25/50/75/90%
@@ -42,6 +54,17 @@ export function EngagementTracker() {
         trackPhoneClick(href.replace("tel:", ""));
       } else if (href.startsWith("http") && !href.includes(window.location.host)) {
         track("outbound_click", { url: href, label: el.textContent?.trim() || href });
+      } else if (isInternalCta(href)) {
+        // Any link to the contact/conversion page is a CTA — captured site-wide
+        // so every page's "Book demo / Start trial / Contact" button is tracked
+        // (label + the page it was clicked on + the trial/demo intent) without
+        // having to wire each button individually.
+        const intent = (href.match(/intent=([a-z]+)/) || [])[1] || "";
+        track(
+          "cta_click",
+          { label: el.textContent?.trim() || "CTA", page: pathname, intent },
+          "CTAClick"
+        );
       }
     };
 

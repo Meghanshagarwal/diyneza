@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ArrowRight, Play, TrendingUp, Users, ShoppingBag, Clock, CheckCircle2 } from "lucide-react";
 import { homepageContent } from "@/data/homepage-content";
-import { trackCTA } from "@/lib/analytics";
 
 export function Hero() {
   const { eyebrow, subhead, primaryCTA, secondaryCTA } = homepageContent.hero;
@@ -42,7 +41,6 @@ export function Hero() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact?intent=trial"
-              onClick={() => trackCTA(primaryCTA, "hero")}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-7 py-3 text-base font-heading font-medium text-black transition-all hover:bg-primary-light hover:scale-[1.02] glow-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark-bg"
             >
               <span>{primaryCTA}</span>
@@ -50,7 +48,6 @@ export function Hero() {
             </Link>
             <Link
               href="/contact?intent=demo"
-              onClick={() => trackCTA(secondaryCTA, "hero")}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-7 py-3 text-base font-heading font-medium text-white transition-all hover:bg-zinc-800 hover:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark-bg"
             >
               <Play className="h-4 w-4 text-primary fill-primary" />
